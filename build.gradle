@@ -4,7 +4,6 @@ apply plugin: 'signing'
 apply plugin: 'nexus'
 apply plugin: 'release'
 
-
 buildscript {
     repositories {
         mavenCentral()
@@ -23,9 +22,6 @@ dependencies {
 repositories {
     mavenCentral()
 }
-
-group = 'com.cloudbees.clickstack'
-version = '1.0.0-SNAPSHOT'
 
 jar {
     manifest {

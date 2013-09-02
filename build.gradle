@@ -1,0 +1,72 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'nexus'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.3'
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    groovy localGroovy()
+}
+repositories {
+    mavenCentral()
+}
+
+group = 'com.cloudbees.clickstack'
+version = '1.0.0-SNAPSHOT'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle CloudBees ClickStack plugin',
+                'Implementation-Version': version,
+                'Built-By': System.getProperty('user.name'),
+                'Built-Date': new Date(),
+                'Built-JDK': System.getProperty('java.version'),
+                'Built-Gradle': gradle.gradleVersion
+    }
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.7'
+}
+modifyPom {
+    project {
+        name 'Gradle CloudBees ClickStack plugin'
+        description 'Gradle plugin to package a CloudBees ClickStack'
+        url 'https://github.com/CloudBees-community/gradle-clickstack-plugin'
+        inceptionYear '2013'
+
+        scm {
+            url 'https://github.com/CloudBees-community/gradle-clickstack-plugin'
+            connection 'scm:https://github.com/CloudBees-community/gradle-clickstack-plugin.git'
+            developerConnection 'scm:git://github.com/CloudBees-community/gradle-clickstack-plugin.git'
+        }
+
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
+
+        developers {
+            developer {
+                id 'cleclerc'
+                name 'Cyrille Le Clerc'
+                email 'cleclerc@cloudbees.com'
+            }
+        }
+    }
+}
+
+
+

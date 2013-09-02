@@ -37,7 +37,6 @@ public class AddClickStackDependencies extends DefaultTask {
 
     @TaskAction
     void addDependencies() {
-        logger.warn("Add Clickstack Dependencies")
         project.configurations.each { cfg ->
             if (cfg.ext.has("clickStackFolder")) {
                 clickStackDistribution.from(cfg.collect { it }) {

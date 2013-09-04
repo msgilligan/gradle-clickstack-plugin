@@ -149,8 +149,13 @@ class ClickStackPlugin implements Plugin<Project> {
         def startScripts = project.tasks[TASK_SETUP_SCRIPTS_NAME]
 
         distSpec.with {
+            // src/dist files are intended to be directly copied in the application root directory
             into("dist") {
                 from(project.file("src/dist"))
+            }
+            // src/clickstack-resources files are intended to be packaged in the clickstack and used during setup phase
+            into("resources") {
+                from(project.file("src/clickstack-resources"))
             }
 
             into("lib") {

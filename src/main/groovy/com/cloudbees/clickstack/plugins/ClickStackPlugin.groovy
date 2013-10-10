@@ -110,7 +110,7 @@ class ClickStackPlugin implements Plugin<Project> {
         installTask.group = CLICKSTACK_GROUP
         installTask.with pluginConvention.clickStackDistribution
         installTask.into { project.file("${project.buildDir}/install/${pluginConvention.clickStackName}") }
-        installTask.dependsOn TASK_ADD_CLICKSTACK_DEPENDENCIES_NAME
+        installTask.dependsOn TASK_ADD_CLICKSTACK_DEPENDENCIES_NAME, org.gradle.api.plugins.JavaPlugin.TEST_TASK_NAME
         installTask.doFirst {
             if (destinationDir.directory) {
                 if (
@@ -135,7 +135,7 @@ class ClickStackPlugin implements Plugin<Project> {
         archiveTask.description = "Bundles the project as a JVM application with libs and OS specific scripts."
         archiveTask.group = CLICKSTACK_GROUP
         archiveTask.conventionMapping.baseName = { pluginConvention.clickStackName }
-        archiveTask.dependsOn TASK_ADD_CLICKSTACK_DEPENDENCIES_NAME
+        archiveTask.dependsOn TASK_ADD_CLICKSTACK_DEPENDENCIES_NAME, org.gradle.api.plugins.JavaPlugin.TEST_TASK_NAME
 
         def baseDir = ""
         archiveTask.into(baseDir) {

@@ -25,15 +25,25 @@ import org.gradle.api.file.CopySpec
  */
 class ClickStackPluginConvention {
     /**
-     * The name of the clickStack.
+     * The name of the clickStack (e.g. "tomcat-clickstack").
      */
     String clickStackName
+
+    /**
+     * The id of the clickStack used in genapp (e.g. "tomcat8", "tomcat7" ...).
+     */
+    String clickstackId
 
     /**
      * The fully qualified name of the application's main class.
      */
     String mainClassName
 
+    /**
+     * The directory in which the clickstack should be installed with the convention
+     * <code>${clickstackInstallDir}/${clickstackId}/setup</code>
+     */
+    String clickstackInstallDir;
     /**
      * Array of string arguments to pass to the JVM when running the application
      */

@@ -73,7 +73,13 @@ class ClickStackPlugin implements Plugin<Project> {
     private void addPluginConvention() {
         pluginConvention = new ClickStackPluginConvention(project)
         pluginConvention.clickStackName = project.name
+        pluginConvention.clickstackId = project.clickstackId
         project.convention.plugins.clickStack = pluginConvention
+        if(project.hasProperty('clickstackInstallDir') && project.getProperty('clickstackInstallDir') != null) {
+            pluginConvention.clickstackInstallDir = project.getProperty('clickstackInstallDir') +  "/" + pluginConvention.clickstackId
+        } else {
+            pluginConvention.clickstackInstallDir = project.buildDir.path + '/install/' + pluginConvention.clickstackId
+        }
     }
 
     private void addRunTask() {
@@ -109,7 +115,8 @@ class ClickStackPlugin implements Plugin<Project> {
         installTask.description = "Installs the ClickStack."
         installTask.group = CLICKSTACK_GROUP
         installTask.with pluginConvention.clickStackDistribution
-        installTask.into { project.file("${project.buildDir}/install/${pluginConvention.clickStackName}") }
+
+        installTask.into { project.file(pluginConvention.clickstackInstallDir) }
         installTask.dependsOn TASK_ADD_CLICKSTACK_DEPENDENCIES_NAME, org.gradle.api.plugins.JavaPlugin.TEST_TASK_NAME
         installTask.doFirst {
             if (destinationDir.directory) {
@@ -127,6 +134,7 @@ class ClickStackPlugin implements Plugin<Project> {
         }
         installTask.doLast {
             project.ant.chmod(file: "${destinationDir.absolutePath}/setup", perm: 'ugo+x')
+            logger.quiet("ClickStack installed in ${destinationDir}")
         }
     }
 
@@ -142,6 +150,9 @@ class ClickStackPlugin implements Plugin<Project> {
             with(pluginConvention.clickStackDistribution)
         }
         archiveTask
+        archiveTask.doLast {
+            logger.quiet("ClickStack archive created in ${destinationDir}")
+        }
     }
 
     private CopySpec configureDistSpec(CopySpec distSpec) {

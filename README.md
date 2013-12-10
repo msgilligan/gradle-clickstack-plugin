@@ -12,8 +12,25 @@ It extends Gradle applicaton plugin and allows bundling clickstack using Java cu
     clickstackName = 'tomcat8-clickstack'
 
 
-see https://github.com/CloudBees-community/tomcat8-clickstack/blob/master/build.gradle for a working sample
+see https://github.com/CloudBees-community/tomcat-clickstack/blob/master/build.gradle for a working sample
 
 # Tasks
 
+# Configuration
 
+You should declare in `~/.gradle/gradle.properties`
+
+```
+
+# optional - path to the 'plugins' dir of your genapp install
+# used by 'installClickStack' if declared
+clickstackInstallDir=/path/to/your/genapp/plugins
+
+
+
+# optional - credentials for 'uploadArchives' task
+# usually credentials for https://repository-community.forge.cloudbees.com/snapshot 
+repoUsername=my_login_
+repoPassword=my_password
+
+```
